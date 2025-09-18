@@ -5,9 +5,12 @@ const { ObteroToken } = require('../helpers/autenticacao')
 
 describe('Transferencias', () => {
     describe('POST /transferencias', () => {
+        let token
+        beforeEach(async () => {
+            token = await ObteroToken('julio.lima', '123456')
+        })
         it('Deve retornar sucesso com 201 quando o valor da transferecnia for acima de R$10,00', async () => {
 
-            const token = await ObteroToken('julio.lima', '123456')
             const resposta = await request(process.env.BASE_URL)
                 .post('/transferencias')
                 .set('Content-Type', 'application/json')
@@ -23,7 +26,6 @@ describe('Transferencias', () => {
 
 
         it('Deve retornar sucesso com 422 quando o valor da transferecnia for abaixo de R$10,00', async () => {
-            const token = await ObteroToken('julio.lima', '123456')
             const resposta = await request('http://localhost:3000')
                 .post('/transferencias')
                 .set('Content-Type', 'application/json')
